@@ -1,4 +1,5 @@
 import { fetchJSON } from "./functions/api.js"
+import { alertElement } from "./functions/alert.js"
 
 class InfinitePagination {
 
@@ -44,6 +45,7 @@ class InfinitePagination {
             return
         }
         this.#loading = true
+        try{ 
         const url = new URL(this.#endpoint) 
         url.searchParams.set('_page', this.#page) // modifie parametre page dans l'url
         const comments = await fetchJSON(url.toString())//Recupere donnée API GUI
@@ -64,6 +66,16 @@ class InfinitePagination {
         }
         this.#page++
         this.#loading = false
+    }catch(e){
+        this.#loader.style.display ='none'
+        const error = alertElement('Impossible de charger le contenus')
+        error.addEventListener('close',()=>{
+            this.#loader.style.removeProperty('display')
+            this.#loading = false
+        })
+        this.#target.prepend(error)
+        
+    }
     }
 }
 
