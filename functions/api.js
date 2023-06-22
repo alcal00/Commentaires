@@ -10,4 +10,5 @@ export async function fetchJSON(url, options = {}){
         throw new Error('Erreur serveur', {cause: r})
     }
     return await r.json()
-}
+} 
+// test commit simple
