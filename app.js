@@ -1,9 +1,14 @@
 class InfinitePagination {
 
+    /**@type {string} */
     #endpoint
+    /**@type {string} */
     #template
+    /**@type {string} */
     #target
+    /**@type {string} */
     #elements
+    /**@type {IntersectionObserver} */
     #observer
 
     /**
