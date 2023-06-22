@@ -13,7 +13,7 @@ class InfinitePagination {
         this.#endpoint = element.dataset.endpoint
         this.#template = element.dataset.template
         this.#target = element.dataset.target
-        this.#elements = element.dataset.elements
+        this.#elements = element.dataset.elements 
     }
 }
 
