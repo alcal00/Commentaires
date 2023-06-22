@@ -14,16 +14,21 @@ class InfinitePagination {
     #observer
     /**@type {boolean} */
     #loading = false
+    /**@type {number} */
+    #page = 1
+    /**@type {HTMLElement} */
+    #loader
 
     /**
      * 
      * @param {HTMLElement} element 
      */
     constructor(element) {
+        this.#loader = element
         this.#endpoint = element.dataset.endpoint
         this.#template = document.querySelector(element.dataset.template)
         this.#target = document.querySelector(element.dataset.target)
-        this.#elements = JSON.parse(element.dataset.elements)
+        this.#elements = JSON.parse(element.dataset.elements) // json to string
         this.#observer = new IntersectionObserver((entries) => {
             for (const entry of entries) {
                 if (entry.isIntersecting) {
@@ -39,11 +44,16 @@ class InfinitePagination {
             return
         }
         this.#loading = true
-        const comments = await fetchJSON(this.#endpoint)
+        const url = new URL(this.#endpoint) 
+        url.searchParams.set('_page', this.#page) // modifie parametre page dans l'url
+        const comments = await fetchJSON(url.toString())//Recupere donnée API GUI
+        if(comments.length === 0){// On a plus de commentaires في stock
+            this.#observer.disconnect()
+            this.#loader.remove()
+        }
         for (const comment of comments) {
             const commentElement = this.#template.content.cloneNode(true) // template vide
             for (const [key, selector] of Object.entries(this.#elements)) {
-                console.log({ key, selector })
                 commentElement.querySelector(selector).innerText = comment[key] 
                 /* ca recupere le selector qui est soit js-username ou js-content on le modifie
                 avec comment[key]. comment est un commentaire parmi les commentaires qu'on parcours
@@ -52,6 +62,7 @@ class InfinitePagination {
             }
             this.#target.append(commentElement)
         }
+        this.#page++
         this.#loading = false
     }
 }
