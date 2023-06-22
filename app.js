@@ -79,6 +79,47 @@ class InfinitePagination {
     }
 }
 
+
+class FetchForm{
+
+    /**@type {string} */
+    #endpoint
+    /**@type {HTMLTemplateElement} */
+    #template
+    /**@type {HTMLElement} */
+    #target
+    /**@type {string} */
+    #elements
+
+    /**
+     * 
+     * @param {HTMLFormElement} form 
+     */
+    constructor(form){
+        this.#loader = element
+        this.#endpoint = element.dataset.endpoint
+        this.#template = document.querySelector(element.dataset.template)
+        this.#target = document.querySelector(element.dataset.target)
+        this.#elements = JSON.parse(element.dataset.elements) // json to string
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+        })
+
+    }
+    /**
+     * @param {HTMLFormElement} form 
+     */
+    #submitForm (form) {
+
+    }
+
+}
+
 document
     .querySelectorAll('.js-infinite-pagination')
     .forEach(el => new InfinitePagination(el))
+
+    document
+    .querySelectorAll('.js-form-fetch')
+    .forEach(form => new FetchForm(form))
