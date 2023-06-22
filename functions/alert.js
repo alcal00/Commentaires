@@ -1,16 +1,18 @@
 /**
- * Renvoie un élément HTML
+ * Renvoi' un élément HTML représentant une alerte
  * @param {string} message 
- * @return {HTMLElement}
+ * @param {string} type
+ * @returns {HTMLElement}
  */
-export function alertElement(message){
+export function alertElement(message, type ='danger') {
     /** @type {HTMLElement} */
-    const el = document.querySelector('#alert').content.firstElementChild.cloneNode(true) // Clone sur le premier walad pour pas avoir un doc#fragment et avoir un element
+    const el = document.querySelector('#alert').content.firstElementChild.cloneNode(true)
+    el.classList.add(`alert-${type}`)
     el.querySelector('.js-text').innerText = message
-    el.querySelector('button').addEventListener('click', e =>{
+    el.querySelector('button').addEventListener('click', e => {
         e.preventDefault()
         el.remove()
         el.dispatchEvent(new CustomEvent('close'))
     })
-    return el // pour qu'il puisse etre utilisé
+    return el
 }
