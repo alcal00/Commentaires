@@ -4,6 +4,7 @@ class InfinitePagination {
     #template
     #target
     #elements
+    #observer
 
     /**
      * 
@@ -14,6 +15,17 @@ class InfinitePagination {
         this.#template = element.dataset.template
         this.#target = element.dataset.target
         this.#elements = element.dataset.elements 
+        this.#observer = new IntersectionObserver((entries) => {
+            for(const entry of entries){
+                if (entry.isIntersecting){
+                    this.#loadMore()
+                }
+            }
+        })
+    }
+
+    #loadMore(){
+        
     }
 }
 
